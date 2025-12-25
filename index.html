@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio NOXHA | Visual Roadmap</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;500;600&family=Mulish:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- PALETTE --- */
+        :root {
+            --noxha-cream: #EFE8D0;
+            --noxha-black: #221F20;
+            --noxha-magenta: #AE3854;
+            --noxha-white: #FFFFFF;
+        }
+
+        /* --- GLOBAL RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--noxha-cream);
+            color: var(--noxha-black);
+            font-family: 'Mulish', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- 1. INTRO OVERLAY --- */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: var(--noxha-white);
+            z-index: 9999;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            cursor: pointer;
+        }
+        .slide-up { transform: translateY(-100%); }
+        #intro-content { text-align: center; }
+        #intro-video { width: 300px; height: auto; display: block; margin-bottom: 1rem; mix-blend-mode: multiply; }
+        #intro-sub {
+            font-family: 'Mulish', sans-serif; color: var(--noxha-black);
+            text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.8rem;
+            opacity: 0.6; animation: pulse 2s infinite; margin-top: 1rem;
+        }
+        @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+
+        /* --- 2. MAIN CONTENT --- */
+        #roadmap-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; opacity: 0.15; }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3, h4 { font-family: 'Bodoni Moda', serif; font-weight: 400; }
+        .section-title { font-size: 3rem; margin-bottom: 3rem; position: relative; display: inline-block; }
+
+        /* NAV */
+        nav {
+            display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 4rem;
+            position: fixed; width: 100%; top: 0; z-index: 100;
+            background: rgba(239, 232, 208, 0.95); backdrop-filter: blur(10px);
+            opacity: 0; animation: fadeInNav 1s ease forwards 1.2s;
+        }
+        @keyframes fadeInNav { to { opacity: 1; } }
+        .logo-img { height: 40px; width: auto; display: block; }
+        .menu-link { text-decoration: none; color: var(--noxha-black); margin-left: 2.5rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; font-weight: 600; }
+        .menu-link:hover { color: var(--noxha-magenta); }
+
+        /* HERO */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 2rem; }
+        .hero h1 {
+            font-family: 'Bodoni Moda', serif; font-size: 5.5vw; line-height: 1.1; margin-bottom: 2rem; color: var(--noxha-black);
+            opacity: 0; transform: translateY(30px); transition: all 1s ease 0.5s;
+        }
+        .hero-visible h1 { opacity: 1; transform: translateY(0); }
+        .hero-accent { color: var(--noxha-magenta); }
+        .hero p {
+            font-size: 1.1rem; max-width: 600px; margin-bottom: 3rem; color: var(--noxha-black); letter-spacing: 0.05em;
+            opacity: 0; transform: translateY(20px); transition: all 1s ease 0.8s;
+        }
+        .hero-visible p { opacity: 0.7; transform: translateY(0); }
+        .btn {
+            display: inline-block; padding: 1rem 2.5rem; border: 1px solid var(--noxha-black); color: var(--noxha-black);
+            text-decoration: none; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.2em;
+            opacity: 0; transform: translateY(20px); transition: opacity 1s ease 1s, transform 1s ease 1s, background 0.3s, color 0.3s;
+        }
+        .hero-visible .btn { opacity: 1; transform: translateY(0); }
+        .btn:hover { background: var(--noxha-magenta); border-color: var(--noxha-magenta); color: var(--noxha-white); }
+
+        /* SECTIONS */
+        .container { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .highlight-text { font-size: 1.25rem; font-weight: 300; }
+        
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .service-card { border: 1px solid rgba(34, 31, 32, 0.1); padding: 3rem; transition: transform 0.3s ease; background: rgba(255,255,255,0.4); }
+        .service-card:hover { transform: translateY(-5px); border-color: var(--noxha-magenta); }
+        .service-card h3 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--noxha-magenta); }
+        .service-list li { list-style: none; margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; }
+        .service-list li::before { content: '•'; position: absolute; left: 0; color: var(--noxha-magenta); }
+        .more-text { font-style: italic; opacity: 0.7; margin-top: 1rem; display: block; }
+
+        .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 4rem; }
+        .step h4 { font-size: 4rem; color: rgba(174, 56, 84, 0.2); margin-bottom: 1rem; line-height: 1; }
+        .step h5 { font-size: 1.2rem; margin-bottom: 1rem; font-family: 'Bodoni Moda'; }
+        .step p { font-size: 0.9rem; opacity: 0.8; }
+
+        .founders-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 4rem; align-items: start; }
+        .founder-card { text-align: center; }
+        .founder-img-container { width: 100%; aspect-ratio: 3 / 4; margin-bottom: 1.5rem; overflow: hidden; background-color: #ddd; }
+        .founder-img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; filter: grayscale(100%); transition: filter 0.5s ease, transform 0.5s ease; }
+        .founder-card:hover .founder-img { filter: grayscale(0%); transform: scale(1.02); }
+        .founder-card h4 { font-size: 2rem; margin-bottom: 0.5rem; margin-top: 1rem;}
+        .founder-role { color: var(--noxha-magenta); font-family: 'Mulish'; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 1.5rem; display: block; }
+
+        /* FOOTER (ICONS) */
+        footer { background: var(--noxha-black); color: var(--noxha-cream); padding: 5rem 2rem; text-align: center; }
+        
+        .social-icons-container {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .social-icon-link {
+            color: var(--noxha-cream);
+            transition: transform 0.3s ease, color 0.3s ease;
+            display: inline-block;
+        }
+
+        .social-icon-link:hover {
+            color: var(--noxha-magenta);
+            transform: translateY(-5px);
+        }
+
+        .social-icon-svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor; /* Inherits text color */
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .about-grid, .services-grid, .process-steps, .founders-grid { grid-template-columns: 1fr; gap: 3rem; }
+            nav { padding: 1.5rem; }
+            .menu-link { display: none; }
+            #intro-video { width: 80%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay" onclick="enterSite()">
+        <div id="intro-content">
+            <video id="intro-video" autoplay muted loop playsinline>
+                <source src="images/intro.mp4" type="video/mp4">
+            </video>
+            <p id="intro-sub">[ Click to Enter ]</p>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <canvas id="roadmap-canvas"></canvas>
+
+        <nav>
+            <a href="#"><img src="images/logo.png" alt="Studio NOXHA" class="logo-img"></a>
+            <div>
+                <a href="#services" class="menu-link">Services</a>
+                <a href="#process" class="menu-link">Process</a>
+                <a href="#founders" class="menu-link">Team</a>
+                <a href="#contact" class="menu-link">Contact</a>
+            </div>
+        </nav>
+
+        <section class="hero" id="hero-section">
+            <h1>Your <span class="hero-accent">roadmap</span> to<br>visual identity.</h1>
+            <p>We bridge the gap between Strategic Design and Cinematic Aesthetics.</p>
+            <a href="#contact" class="btn">Start the Journey</a>
+        </section>
+
+        <section class="container" id="about">
+            <div class="about-grid">
+                <div><h2 class="section-title">Who We Are</h2></div>
+                <div>
+                    <p class="highlight-text">Noxha is a visual communication and storytelling studio co-founded by a designer and a <strong>visual artist</strong>. We build brands through identity, imagery, and narratives that feel memorable, honest, and visually strong.</p>
+                    <br><p>One team, one communication channel, one vision.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" id="services">
+            <h2 class="section-title">What We Offer</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Design</h3>
+                    <ul class="service-list">
+                        <li>Brand Identity & Logo Systems</li>
+                        <li>Packaging Design</li>
+                        <li>Publication / Editorial Layout</li>
+                        <li>UI/UX & Website Design</li>
+                        <li>Social Media Direction</li>
+                        <li class="more-text">And many more...</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <h3>Photo & Film</h3>
+                    <ul class="service-list">
+                        <li>Product Photography</li>
+                        <li>Portraits & Lifestyle Shoots</li>
+                        <li>Editorial Visual Narratives</li>
+                        <li>Brand Story Films</li>
+                        <li>Creative Direction</li>
+                        <li class="more-text">And many more...</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" id="process">
+            <h2 class="section-title">The Roadmap</h2>
+            <div class="process-steps">
+                <div class="step"><h4>01</h4><h5>Understand</h5><p>Brand goals, voice, users, and emotional tone.</p></div>
+                <div class="step"><h4>02</h4><h5>Direction</h5><p>Moodboards, style language, color & typography.</p></div>
+                <div class="step"><h4>03</h4><h5>Create</h5><p>Design execution, Photography, and Film Production.</p></div>
+                <div class="step"><h4>04</h4><h5>Deliver</h5><p>Final assets, brand kit, rollout guidelines.</p></div>
+            </div>
+        </section>
+
+        <section class="container" id="founders">
+            <h2 class="section-title">The Founders</h2>
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <div class="founder-img-container"><img src="images/bhakti.jpg" alt="Bhakti Kulkarni" class="founder-img"></div>
+                    <h4>Bhakti Kulkarni</h4><span class="founder-role">Designer (NID)</span>
+                    <p>Specializes in brand identity, publication design, and visual language. Her approach is rooted in clarity, storytelling, and cultural sensitivity.</p>
+                </div>
+                <div class="founder-card">
+                    <div class="founder-img-container"><img src="images/raghav.jpg" alt="Raghav Kulkarni" class="founder-img"></div>
+                    <h4>Raghav Kulkarni</h4><span class="founder-role">Visual Artist (MIT)</span>
+                    <p>Works across product, portrait, and cinematic brand films. His approach focuses on narrative mood, controlled lighting, and atmospheric storytelling.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer id="contact">
+            <h2>Let's build your brand's world.</h2>
+            <br>
+            <p>Pune, India (Available Nationwide)</p>
+            
+            <div class="social-icons-container">
+                <a href="mailto:studionoxha@gmail.com" class="social-icon-link" aria-label="Email">
+                    <svg class="social-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </a>
+
+                <a href="https://wa.me/919421586636" target="_blank" class="social-icon-link" aria-label="WhatsApp">
+                    <svg class="social-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.16 3.03 14.69 2 12.04 2zM12.05 20.21c-1.5 0-2.97-.39-4.26-1.15l-.3-.18-3.11.82.83-3.03-.2-.31c-.82-1.31-1.26-2.83-1.26-4.45 0-4.61 3.75-8.36 8.36-8.36 2.23 0 4.33.87 5.91 2.45 1.58 1.58 2.45 3.68 2.45 5.91 0 4.61-3.74 8.36-8.35 8.36z"/></svg>
+                </a>
+
+                <a href="https://www.instagram.com/studionoxha/" target="_blank" class="social-icon-link" aria-label="Instagram">
+                    <svg class="social-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 3.8 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+                </a>
+            </div>
+            
+            <p style="opacity: 0.5; font-size: 0.8rem;">© 2025 Studio NOXHA</p>
+        </footer>
+    </div>
+
+    <script>
+        // 1. INTRO SCRIPT
+        function enterSite() {
+            document.getElementById('intro-overlay').classList.add('slide-up');
+            document.body.style.overflowX = 'hidden';
+            setTimeout(() => { document.getElementById('hero-section').classList.add('hero-visible'); }, 500);
+        }
+
+        // 2. BACKGROUND SCRIPT
+        const canvas = document.getElementById('roadmap-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, points = [];
+        function resize() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; initPoints(); }
+        function initPoints() {
+            points = []; const gap = 150; 
+            for(let x = 0; x < width + gap; x += gap) {
+                for(let y = 0; y < height + gap; y += gap) {
+                    points.push({ x: x + (Math.random()-0.5)*50, y: y + (Math.random()-0.5)*50, originX: x, originY: y, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5 });
+                }
+            }
+        }
+        function animate() {
+            ctx.clearRect(0, 0, width, height); ctx.beginPath(); ctx.strokeStyle = '#AE3854'; ctx.lineWidth = 0.5;
+            for (let i = 0; i < points.length; i++) {
+                let p = points[i]; p.x += p.vx; p.y += p.vy;
+                if (Math.abs(p.x - p.originX) > 30) p.vx *= -1; if (Math.abs(p.y - p.originY) > 30) p.vy *= -1;
+                for (let j = i + 1; j < points.length; j++) {
+                    let p2 = points[j]; if (Math.hypot(p.x - p2.x, p.y - p2.y) < 180) { ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); }
+                }
+            }
+            ctx.stroke(); requestAnimationFrame(animate);
+        }
+        window.addEventListener('resize', resize); resize(); animate();
+    </script>
+</body>
+</html>
